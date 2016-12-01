@@ -22,7 +22,15 @@ module.exports = function (oAppData) {
 		return {
 			start: function (ModulesManager) {
 				ModulesManager.run('AdminPanelWebclient', 'registerAdminPanelTab', [
-					function () { return require('modules/%ModuleName%/js/views/AdminSettingsView.js'); },
+					function(resolve) {
+						require.ensure(
+							['modules/%ModuleName%/js/views/AdminSettingsView.js'],
+							function() {
+								resolve(require('modules/%ModuleName%/js/views/AdminSettingsView.js'));
+							},
+							"admin-bundle"
+						);
+					},
 					Settings.HashModuleName,
 					TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')
 				]);
