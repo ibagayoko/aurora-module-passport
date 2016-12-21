@@ -45,27 +45,8 @@ class FacebookModule extends AApiModule
 	 */
 	public function init()
 	{
-		$this->subscribeEvent('OAuthIntegratorWebclient::GetServices::after', array($this, 'onAfterGetServices'));
 		$this->subscribeEvent('GetServicesSettings', array($this, 'onGetServicesSettings'));
 		$this->subscribeEvent('UpdateServicesSettings', array($this, 'onUpdateServicesSettings'));
-	}
-
-	
-	/**
-	 * Adds service name to array passed by reference.
-	 * 
-	 * @ignore
-	 * @param array $aServices Array with services names passed by reference.
-	 */
-	public function onAfterGetServices($aArgs, &$aServices)
-	{
-		if ($this->getConfig('EnableModule', false))
-		{
-			if ($this->issetScope('auth'))
-			{
-				$aServices[] = $this->sService;
-			}
-		}
 	}
 	
 	/**
