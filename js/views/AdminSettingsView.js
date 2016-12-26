@@ -21,6 +21,7 @@ function CAdminSettingsView()
 	this.enable = ko.observable(Settings.EnableModule);
 	this.id = ko.observable(Settings.Id);
 	this.secret = ko.observable(Settings.Secret);
+	this.scopes = ko.observable(Settings.Scopes);
 	/*-- Editable fields */
 }
 
@@ -33,7 +34,8 @@ CAdminSettingsView.prototype.getCurrentValues = function()
 	return [
 		this.enable(),
 		this.id(),
-		this.secret()
+		this.secret(),
+		this.scopes()
 	];
 };
 
@@ -42,6 +44,7 @@ CAdminSettingsView.prototype.revertGlobalValues = function()
 	this.enable(Settings.EnableModule);
 	this.id(Settings.Id);
 	this.secret(Settings.Secret);
+	this.scopes(Settings.Scopes);
 };
 
 CAdminSettingsView.prototype.getParametersForSave = function ()
@@ -49,13 +52,20 @@ CAdminSettingsView.prototype.getParametersForSave = function ()
 	return {
 		'EnableModule': this.enable(),
 		'Id': this.id(),
-		'Secret': this.secret()
+		'Secret': this.secret(),
+		'Scopes': _.map(this.scopes(), function(oScope){
+			return {
+				Name: oScope.Name,
+				Description: oScope.Description,
+				Value: oScope.Value()
+			};
+		})
 	};
 };
 
 CAdminSettingsView.prototype.applySavedValues = function (oParameters)
 {
-	Settings.updateAdmin(oParameters.EnableModule, oParameters.Id, oParameters.Secret);
+	Settings.updateAdmin(oParameters.EnableModule, oParameters.Id, oParameters.Secret, oParameters.Scopes);
 };
 
 CAdminSettingsView.prototype.setAccessLevel = function (sEntityType, iEntityId)

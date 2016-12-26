@@ -58,7 +58,7 @@ CUserSettingsView.prototype.connect = function ()
 	$.removeCookie('oauth-scopes');
 	_.each(this.scopes(), function (oScope) {
 		console.log(oScope.Name);
-		if (oScope.value())
+		if (oScope.Value())
 		{
 			aScopes.push(oScope.Name);
 		}
@@ -97,7 +97,7 @@ CUserSettingsView.prototype.disconnect = function ()
 			{
 				this.connected(false);
 				_.each(this.scopes(), function (oScope) {
-					oScope.value(false);
+					oScope.Value(false);
 				});
 				App.broadcastEvent('OAuthAccountChange::after');
 			}

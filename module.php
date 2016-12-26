@@ -121,9 +121,8 @@ class FacebookModule extends AApiModule
 			$aArgs = array(
 				'OAuthAccount' => $oAccount
 			);
-			$this->broadcastEvent('GetSettings', $aArgs, $aResult);
 		}
-		
+		$this->broadcastEvent('GetSettings', $aArgs, $aResult);
 		
 		return $aResult;
 	}
@@ -137,7 +136,7 @@ class FacebookModule extends AApiModule
 	 * 
 	 * @throws \System\Exceptions\AuroraApiException
 	 */
-	public function UpdateSettings($EnableModule, $Id, $Secret)
+	public function UpdateSettings($EnableModule, $Id, $Secret, $Scopes)
 	{
 		\CApi::checkUserRoleIsAtLeast(\EUserRole::TenantAdmin);
 		
