@@ -38,7 +38,7 @@ module.exports = function (oAppData) {
 		};
 	}
 	
-	if (bNormalUser && Settings.EnableModule && _.isArray(Settings.Scopes) && (Settings.Scopes.count) > 0)
+	if (bNormalUser && Settings.EnableModule && _.isArray(Settings.Scopes) && Settings.Scopes.length > 0)
 	{
 		return {
 			start: function (ModulesManager) {
