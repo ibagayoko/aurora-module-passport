@@ -26,6 +26,10 @@
 						<input class="input" type="text" data-bind="value: secret, valueUpdate: 'afterkeydown', onEnter: save" />
 					</span>
 				</div>
+				<div class="hint row">
+					<span class="value" data-bind="i18n: {'key': '%MODULENAME%/INFO_SETTINGS'}"></span>
+				</div>
+				<div class="row"></div>
 				<div data-bind="foreach: scopes">
 					<div class="row">
 						<span class="value">
@@ -38,10 +42,6 @@
 							<label data-bind="text: $data.Description, attr: {for: Name}"></label>
 						</span>
 					</div>
-				</div>
-				<div class="row"></div>
-				<div class="hint row">
-					<span class="value" data-bind="i18n: {'key': '%MODULENAME%/INFO_SETTINGS'}"></span>
 				</div>
 			</div>		
 
