@@ -1,0 +1,14 @@
+{
+    "EnableModule": [
+        true,
+        "bool"
+    ],
+    "Id": [
+        "1582615142003625",
+        "string"
+    ],
+    "Secret": [
+        "329cbdb053d0e0a245eef1f395f33238",
+        "string"
+    ]
+}

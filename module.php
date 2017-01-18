@@ -22,12 +22,6 @@ class FacebookModule extends AApiModule
 {
 	protected $sService = 'facebook';
 	
-	protected $aSettingsMap = array(
-		'EnableModule' => array(false, 'bool'),
-		'Id' => array('', 'string'),
-		'Secret' => array('', 'string')
-	);
-	
 	protected $aRequireModules = array(
 		'OAuthIntegratorWebclient'
 	);
