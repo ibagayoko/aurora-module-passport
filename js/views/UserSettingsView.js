@@ -57,7 +57,6 @@ CUserSettingsView.prototype.connect = function ()
 
 	$.removeCookie('oauth-scopes');
 	_.each(this.scopes(), function (oScope) {
-		console.log(oScope.Name);
 		if (oScope.Value())
 		{
 			aScopes.push(oScope.Name);
