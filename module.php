@@ -18,7 +18,9 @@
  * @package Modules
  */
 
-class FacebookModule extends AApiModule
+namespace Aurora\Modules;
+
+class FacebookModule extends \AApiModule
 {
 	protected $sService = 'facebook';
 	
