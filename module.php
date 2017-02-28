@@ -20,7 +20,7 @@
 
 namespace Aurora\Modules;
 
-class FacebookModule extends \AApiModule
+class FacebookModule extends \Aurora\System\AbstractModule
 {
 	protected $sService = 'facebook';
 	
@@ -88,9 +88,9 @@ class FacebookModule extends \AApiModule
 	public function GetSettings()
 	{
 		$aResult = array();
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
 		
-		$oUser = \CApi::getAuthenticatedUser();
+		$oUser = \Aurora\System\Api::getAuthenticatedUser();
 		if (!empty($oUser) && $oUser->Role === \EUserRole::SuperAdmin)
 		{
 			$aResult = array(
@@ -105,7 +105,7 @@ class FacebookModule extends \AApiModule
 		if (!empty($oUser) && $oUser->Role === \EUserRole::NormalUser)
 		{
 			$oAccount = null;
-			$oOAuthIntegratorWebclientDecorator = \CApi::GetModuleDecorator('OAuthIntegratorWebclient');
+			$oOAuthIntegratorWebclientDecorator = \Aurora\System\Api::GetModuleDecorator('OAuthIntegratorWebclient');
 			if ($oOAuthIntegratorWebclientDecorator)
 			{
 				$oAccount = $oOAuthIntegratorWebclientDecorator->GetAccount($this->sService);
@@ -134,7 +134,7 @@ class FacebookModule extends \AApiModule
 	 */
 	public function UpdateSettings($EnableModule, $Id, $Secret, $Scopes)
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::TenantAdmin);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::TenantAdmin);
 		
 		try
 		{
@@ -158,10 +158,10 @@ class FacebookModule extends \AApiModule
 	 */
 	public function DeleteAccount()
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
 		
 		$bResult = false;
-		$oOAuthIntegratorWebclientDecorator = \CApi::GetModuleDecorator('OAuthIntegratorWebclient');
+		$oOAuthIntegratorWebclientDecorator = \Aurora\System\Api::GetModuleDecorator('OAuthIntegratorWebclient');
 		if ($oOAuthIntegratorWebclientDecorator)
 		{
 			$bResult = $oOAuthIntegratorWebclientDecorator->DeleteAccount($this->sService);
