@@ -20,7 +20,7 @@
 
 namespace Aurora\Modules;
 
-class FacebookModule extends \Aurora\System\AbstractModule
+class FacebookModule extends \Aurora\System\Module\AbstractModule
 {
 	protected $sService = 'facebook';
 	
@@ -66,7 +66,7 @@ class FacebookModule extends \Aurora\System\AbstractModule
 	 * @ignore
 	 * @param array $aServices Array with new values for service settings.
 	 * 
-	 * @throws \System\Exceptions\ApiException
+	 * @throws \Aurora\System\Exceptions\ApiException
 	 */
 	public function onUpdateServicesSettings($aServices)
 	{
@@ -130,7 +130,7 @@ class FacebookModule extends \Aurora\System\AbstractModule
 	 * @param string $Id Service app identifier.
 	 * @param string $Secret Service app secret.
 	 * 
-	 * @throws \System\Exceptions\ApiException
+	 * @throws \Aurora\System\Exceptions\ApiException
 	 */
 	public function UpdateSettings($EnableModule, $Id, $Secret, $Scopes)
 	{
@@ -145,7 +145,7 @@ class FacebookModule extends \Aurora\System\AbstractModule
 		}
 		catch (Exception $ex)
 		{
-			throw new \System\Exceptions\ApiException(\System\Notifications::CanNotSaveSettings);
+			throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::CanNotSaveSettings);
 		}
 		
 		return true;
