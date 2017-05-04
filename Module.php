@@ -29,14 +29,9 @@ class Module extends \Aurora\System\Module\AbstractModule
 		'OAuthIntegratorWebclient'
 	);
 	
-	protected function issetScope($sScope)
-	{
-		return in_array($sScope, explode(' ', $this->getConfig('Scopes')));
-	}
-	
 	/***** private functions *****/
 	/**
-	 * Initializes FacebookAuthWebclient Module.
+	 * Initializes Facebook Module.
 	 * 
 	 * @ignore
 	 */
@@ -73,7 +68,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 	{
 		$aSettings = $aServices[$this->sService];
 		
-		if (is_array($aSettings))
+		if (\is_array($aSettings))
 		{
 			$this->UpdateSettings($aSettings['EnableModule'], $aSettings['Id'], $aSettings['Secret']);
 		}
@@ -133,7 +128,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 	 * 
 	 * @throws \Aurora\System\Exceptions\ApiException
 	 */
-	public function UpdateSettings($EnableModule, $Id, $Secret, $Scopes)
+	public function UpdateSettings($EnableModule, $Id, $Secret)
 	{
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::TenantAdmin);
 		
@@ -144,7 +139,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 			$this->setConfig('Secret', $Secret);
 			$this->saveModuleConfig();
 		}
-		catch (Exception $ex)
+		catch (\Exception $ex)
 		{
 			throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::CanNotSaveSettings);
 		}
