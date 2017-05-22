@@ -76,10 +76,10 @@ class Module extends \Aurora\System\Module\AbstractModule
 	public function GetSettings()
 	{
 		$aResult = array();
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
 		
 		$oUser = \Aurora\System\Api::getAuthenticatedUser();
-		if (!empty($oUser) && $oUser->Role === \EUserRole::SuperAdmin)
+		if (!empty($oUser) && $oUser->Role === \Aurora\System\Enums\UserRole::SuperAdmin)
 		{
 			$aResult = array(
 				'Name' => $this->sService,
@@ -90,7 +90,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 			);
 		}
 		
-		if (!empty($oUser) && $oUser->Role === \EUserRole::NormalUser)
+		if (!empty($oUser) && $oUser->Role === \Aurora\System\Enums\UserRole::NormalUser)
 		{
 			$oAccount = null;
 			$oOAuthIntegratorWebclientDecorator = \Aurora\System\Api::GetModuleDecorator('OAuthIntegratorWebclient');
@@ -122,7 +122,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 	 */
 	public function UpdateSettings($EnableModule, $Id, $Secret)
 	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::TenantAdmin);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::TenantAdmin);
 		
 		try
 		{
@@ -146,7 +146,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 	 */
 	public function DeleteAccount()
 	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
 		
 		$bResult = false;
 		$oOAuthIntegratorWebclientDecorator = \Aurora\System\Api::GetModuleDecorator('OAuthIntegratorWebclient');
