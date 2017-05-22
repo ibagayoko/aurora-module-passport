@@ -18,16 +18,16 @@
 									<input type="checkbox" data-bind="checked: Value, attr: { id: Name}" />
 								</span>
 							</label>
-							<label data-bind="text: $data.Description, attr: {for: Name}" />
+							<label data-bind="text: $data.Description, attr: {for: Name}"></label>
 						</span>
 					</div>
 				</div>
 			</div>
 			<div class="buttons" style="text-align: left;">
-				<span class="button" data-bind="click: connect">
+				<span class="button" data-bind="click: checkAndConnect">
 					<span data-bind="i18n: {'key': '%MODULENAME%/BUTTON_APPLY'}"></span>
 				</span>
-				<span class="button" data-bind="click: disconnect, visible: connected">
+				<span class="button" data-bind="click: checkAndDisconnect, visible: connected">
 					<span data-bind="i18n: {'key': '%MODULENAME%/BUTTON_DISCONNECT'}"></span>
 				</span>
 			</div>
