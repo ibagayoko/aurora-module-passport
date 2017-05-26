@@ -93,7 +93,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 		if (!empty($oUser) && $oUser->Role === \Aurora\System\Enums\UserRole::NormalUser)
 		{
 			$oAccount = null;
-			$oOAuthIntegratorWebclientDecorator = \Aurora\System\Api::GetModuleDecorator('OAuthIntegratorWebclient');
+			$oOAuthIntegratorWebclientDecorator = \Aurora\Modules\OAuthIntegratorWebclient\Module::Decorator();
 			if ($oOAuthIntegratorWebclientDecorator)
 			{
 				$oAccount = $oOAuthIntegratorWebclientDecorator->GetAccount($this->sService);
@@ -149,7 +149,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
 		
 		$bResult = false;
-		$oOAuthIntegratorWebclientDecorator = \Aurora\System\Api::GetModuleDecorator('OAuthIntegratorWebclient');
+		$oOAuthIntegratorWebclientDecorator = \Aurora\Modules\OAuthIntegratorWebclient\Module::Decorator();
 		if ($oOAuthIntegratorWebclientDecorator)
 		{
 			$bResult = $oOAuthIntegratorWebclientDecorator->DeleteAccount($this->sService);
