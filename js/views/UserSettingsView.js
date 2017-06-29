@@ -27,7 +27,7 @@ function CUserSettingsView()
 	CAbstractSettingsFormView.call(this, Settings.ServerModuleName);
 	
 	this.connected = ko.observable(Settings.Connected);
-	this.scopes = ko.observable(Settings.Scopes);
+	this.scopes = ko.observable(Settings.getScopesCopy());
 	this.bRunCallback = false;
 	
 	window.facebookConnectCallback = _.bind(function (bResult, sErrorCode, sModule) {
@@ -40,6 +40,8 @@ function CUserSettingsView()
 		else
 		{
 			this.connected(true);
+			this.updateSavedState();
+			Settings.updateScopes(this.connected(), this.scopes());
 		}
 	}, this);
 }
@@ -47,6 +49,30 @@ function CUserSettingsView()
 _.extendOwn(CUserSettingsView.prototype, CAbstractSettingsFormView.prototype);
 
 CUserSettingsView.prototype.ViewTemplate = '%ModuleName%_UserSettingsView';
+
+/**
+ * Returns current values of changeable parameters. These values are used to compare with their previous version.
+ * @returns {Array}
+ */
+CUserSettingsView.prototype.getCurrentValues = function()
+{
+	var aScopesValues = _.map(this.scopes(), function (oScope) {
+		return oScope.Name + oScope.Value();
+	});
+	return [
+		this.connected(),
+		aScopesValues
+	];
+};
+
+/**
+ * Reverts values of changeable parameters to default ones.
+ */
+CUserSettingsView.prototype.revertGlobalValues = function()
+{
+	this.connected(Settings.Connected);
+	this.scopes(Settings.getScopesCopy());
+};
 
 /**
  * Checks if connect is allowed and tries to connect in that case.
@@ -58,7 +84,10 @@ CUserSettingsView.prototype.checkAndConnect = function ()
 			'Scopes': [],
 			'Service': 'facebook',
 			'AllowConnect': true
-		}
+		},
+		oAuthScope = _.find(this.scopes(), function (oScope) {
+			return oScope.Name === 'auth';
+		})
 	;
 	_.each(this.scopes(), function (oScope) {
 		if (oScope.Value())
@@ -69,7 +98,7 @@ CUserSettingsView.prototype.checkAndConnect = function ()
 	
 	App.broadcastEvent('OAuthAccountChange::before', oParams);
 	
-	if (oParams.AllowConnect)
+	if (oParams.AllowConnect && (oAuthScope && oAuthScope.Value() || App.isAccountDeletingAvaliable()))
 	{
 		this.connect(oParams.Scopes);
 	}
@@ -84,6 +113,7 @@ CUserSettingsView.prototype.connect = function (aScopes)
 	$.removeCookie('oauth-scopes');
 	$.cookie('oauth-scopes', aScopes.join('|'));
 	$.cookie('oauth-redirect', 'connect');
+	this.bRunCallback = false;
 	var
 		oWin = WindowOpener.open(UrlUtils.getAppPath() + '?oauth=facebook', 'Facebook'),
 		iIntervalId = setInterval(_.bind(function() {
@@ -97,6 +127,8 @@ CUserSettingsView.prototype.connect = function (aScopes)
 				{
 					clearInterval(iIntervalId);
 					App.broadcastEvent('OAuthAccountChange::after');
+					this.updateSavedState();
+					Settings.updateScopes(this.connected(), this.scopes());
 				}
 			}
 		}, this), 1000)

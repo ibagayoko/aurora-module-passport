@@ -25,7 +25,7 @@ function CAdminSettingsView()
 	this.enable = ko.observable(Settings.EnableModule);
 	this.id = ko.observable(Settings.Id);
 	this.secret = ko.observable(Settings.Secret);
-	this.scopes = ko.observable(Settings.Scopes);
+	this.scopes = ko.observable(Settings.getScopesCopy());
 	/*-- Editable fields */
 }
 
@@ -33,24 +33,38 @@ _.extendOwn(CAdminSettingsView.prototype, CAbstractSettingsFormView.prototype);
 
 CAdminSettingsView.prototype.ViewTemplate = '%ModuleName%_AdminSettingsView';
 
+/**
+ * Returns current values of changeable parameters. These values are used to compare with their previous version.
+ * @returns {Array}
+ */
 CAdminSettingsView.prototype.getCurrentValues = function()
 {
+	var aScopesValues = _.map(this.scopes(), function (oScope) {
+		return oScope.Name + oScope.Value();
+	});
 	return [
 		this.enable(),
 		this.id(),
 		this.secret(),
-		this.scopes()
+		aScopesValues
 	];
 };
 
+/**
+ * Reverts values of changeable parameters to default ones.
+ */
 CAdminSettingsView.prototype.revertGlobalValues = function()
 {
 	this.enable(Settings.EnableModule);
 	this.id(Settings.Id);
 	this.secret(Settings.Secret);
-	this.scopes(Settings.Scopes);
+	this.scopes(Settings.getScopesCopy());
 };
 
+/**
+ * Validates changeable parameters before their saving.
+ * @returns {Boolean}
+ */
 CAdminSettingsView.prototype.validateBeforeSave = function ()
 {
 	if (this.enable() && (this.id() === '' || this.secret() === ''))
@@ -61,13 +75,17 @@ CAdminSettingsView.prototype.validateBeforeSave = function ()
 	return true;
 };
 
+/**
+ * Returns changeable parameters as object to save them on the server-side.
+ * @returns {object}
+ */
 CAdminSettingsView.prototype.getParametersForSave = function ()
 {
 	return {
 		'EnableModule': this.enable(),
 		'Id': this.id(),
 		'Secret': this.secret(),
-		'Scopes': _.map(this.scopes(), function(oScope){
+		'Scopes': _.map(this.scopes(), function(oScope) {
 			return {
 				Name: oScope.Name,
 				Description: oScope.Description,
@@ -77,11 +95,21 @@ CAdminSettingsView.prototype.getParametersForSave = function ()
 	};
 };
 
+/**
+ * Uses just saved changeable parameters to update default ones.
+ * @param {object} oParameters
+ */
 CAdminSettingsView.prototype.applySavedValues = function (oParameters)
 {
 	Settings.updateAdmin(oParameters.EnableModule, oParameters.Id, oParameters.Secret, oParameters.Scopes);
 };
 
+/**
+ * Sets access level for the view via entity type and entity identifier.
+ * This view is visible only for empty entity type.
+ * @param {string} sEntityType Current entity type.
+ * @param {number} iEntityId Indentificator of current intity.
+ */
 CAdminSettingsView.prototype.setAccessLevel = function (sEntityType, iEntityId)
 {
 	this.visible(sEntityType === '');
