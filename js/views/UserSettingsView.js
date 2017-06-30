@@ -87,8 +87,14 @@ CUserSettingsView.prototype.checkAndConnect = function ()
 		},
 		oAuthScope = _.find(this.scopes(), function (oScope) {
 			return oScope.Name === 'auth';
-		})
+		}),
+		bAuthOn = !!oAuthScope && !!oAuthScope.Value(),
+		oAuthGlobalScope = _.find(Settings.getScopesCopy(), function (oScope) {
+			return oScope.Name === 'auth';
+		}),
+		bGlobalAuthOn = !!oAuthGlobalScope && !!oAuthGlobalScope.Value()
 	;
+	
 	_.each(this.scopes(), function (oScope) {
 		if (oScope.Value())
 		{
@@ -98,7 +104,7 @@ CUserSettingsView.prototype.checkAndConnect = function ()
 	
 	App.broadcastEvent('OAuthAccountChange::before', oParams);
 	
-	if (oParams.AllowConnect && (oAuthScope && oAuthScope.Value() || App.isAccountDeletingAvaliable()))
+	if (oParams.AllowConnect && (bAuthOn || bAuthOn === bGlobalAuthOn || !bAuthOn && App.isAccountDeletingAvaliable()))
 	{
 		this.connect(oParams.Scopes);
 	}
@@ -144,12 +150,16 @@ CUserSettingsView.prototype.checkAndDisconnect = function ()
 		oParams = {
 			'Service': 'facebook',
 			'AllowDisconnect': true
-		}
+		},
+		oAuthGlobalScope = _.find(Settings.getScopesCopy(), function (oScope) {
+			return oScope.Name === 'auth';
+		}),
+		bGlobalAuthOn = !!oAuthGlobalScope && !!oAuthGlobalScope.Value()
 	;
 	
 	App.broadcastEvent('OAuthAccountChange::before', oParams);
 	
-	if (oParams.AllowDisconnect && App.isAccountDeletingAvaliable())
+	if (oParams.AllowDisconnect && (!bGlobalAuthOn || App.isAccountDeletingAvaliable()))
 	{
 		this.disconnect();
 	}
