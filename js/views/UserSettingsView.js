@@ -178,6 +178,8 @@ CUserSettingsView.prototype.disconnect = function ()
 				oScope.Value(false);
 			});
 			App.broadcastEvent('OAuthAccountChange::after');
+			this.updateSavedState();
+			Settings.updateScopes(this.connected(), this.scopes());
 		}
 		else
 		{
