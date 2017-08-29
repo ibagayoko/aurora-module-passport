@@ -104,7 +104,7 @@ CUserSettingsView.prototype.checkAndConnect = function ()
 	
 	App.broadcastEvent('OAuthAccountChange::before', oParams);
 	
-	if (oParams.AllowConnect && (bAuthOn || bAuthOn === bGlobalAuthOn || !bAuthOn && App.isAccountDeletingAvaliable()))
+	if (oParams.AllowConnect && (bAuthOn || bAuthOn === bGlobalAuthOn || !bAuthOn && App.isAccountDeletingAvailable()))
 	{
 		this.connect(oParams.Scopes);
 	}
@@ -159,7 +159,7 @@ CUserSettingsView.prototype.checkAndDisconnect = function ()
 	
 	App.broadcastEvent('OAuthAccountChange::before', oParams);
 	
-	if (oParams.AllowDisconnect && (!bGlobalAuthOn || App.isAccountDeletingAvaliable()))
+	if (oParams.AllowDisconnect && (!bGlobalAuthOn || App.isAccountDeletingAvailable()))
 	{
 		this.disconnect();
 	}
