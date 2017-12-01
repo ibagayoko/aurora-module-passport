@@ -3,6 +3,7 @@
 var
 	_ = require('underscore'),
 	ko = require('knockout'),
+	
 	Types = require('%PathToCoreWebclientModule%/js/utils/Types.js')
 ;
 
@@ -18,24 +19,28 @@ module.exports = {
 	Scopes: [],
 	
 	/**
-	 * Initializes settings from AppData object section of this module.
-	 * @param {Object} oAppDataSection Object contained module settings.
+	 * Initializes settings from AppData object sections.
+	 * 
+	 * @param {Object} oAppData Object contained modules settings.
 	 */
-	init: function (oAppDataSection)
+	init: function (oAppData)
 	{
-		if (oAppDataSection)
+		var oAppDataSection = oAppData['%ModuleName%'];
+		
+		if (!_.isEmpty(oAppDataSection))
 		{
-			this.Connected = !!oAppDataSection.Connected;
+			this.Connected = Types.pBool(oAppDataSection.Connected, this.Connected);
 			
-			this.EnableModule = !!oAppDataSection.EnableModule;
-			this.Id = Types.pString(oAppDataSection.Id);
-			this.Secret = Types.pString(oAppDataSection.Secret);
-			this.Scopes = _.isArray(oAppDataSection.Scopes) ? oAppDataSection.Scopes : [];
+			this.EnableModule = Types.pBool(oAppDataSection.EnableModule, this.EnableModule);
+			this.Id = Types.pString(oAppDataSection.Id, this.Id);
+			this.Secret = Types.pString(oAppDataSection.Secret, this.Secret);
+			this.Scopes = Types.pArray(oAppDataSection.Scopes, this.Scopes);
 		}
 	},
 	
 	/**
 	 * Returns copy of Scopes with observable Value parameter.
+	 * 
 	 * @returns {Array}
 	 */
 	getScopesCopy: function ()
@@ -52,7 +57,8 @@ module.exports = {
 	},
 	
 	/**
-	 * Updates Connected and Scopes parameters
+	 * Updates Connected and Scopes parameters.
+	 * 
 	 * @param {boolean} bConnected New value of Connected parameter.
 	 * @param {array} aScopes New value of Scopes parameter.
 	 */
@@ -72,6 +78,7 @@ module.exports = {
 	
 	/**
 	 * Updates settings that is edited by administrator.
+	 * 
 	 * @param {boolean} bEnableModule New value of EnableModule parameter.
 	 * @param {string} sId New value of Id parameter.
 	 * @param {string} sSecret New value of Secret parameter.

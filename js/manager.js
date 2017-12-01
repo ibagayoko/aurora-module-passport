@@ -9,13 +9,12 @@ module.exports = function (oAppData) {
 		App = require('%PathToCoreWebclientModule%/js/App.js'),
 		
 		Settings = require('modules/%ModuleName%/js/Settings.js'),
-		oSettings = _.extend({}, oAppData[Settings.ServerModuleName] || {}, oAppData['%ModuleName%'] || {}),
 		
 		bAdminUser = App.getUserRole() === Enums.UserRole.SuperAdmin,
 		bNormalUser = App.getUserRole() === Enums.UserRole.NormalUser
 	;
 
-	Settings.init(oSettings);
+	Settings.init(oAppData);
 	
 	if (bAdminUser)
 	{
