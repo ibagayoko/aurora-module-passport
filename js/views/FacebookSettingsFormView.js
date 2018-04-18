@@ -35,7 +35,7 @@ function CFacebookSettingsFormView()
 		
 		if (!bResult)
 		{
-			Api.showErrorByCode({'ErrorCode': Types.pInt(sErrorCode), 'ErrorMessage': '', 'ErrorModule': sModule}, '', true);
+			Api.showErrorByCode({'ErrorCode': Types.pInt(sErrorCode), 'Module': sModule}, '', true);
 		}
 		else
 		{
