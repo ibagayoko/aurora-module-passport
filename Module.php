@@ -84,7 +84,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 		{
 			$aResult = array(
 				'Name' => $this->sService,
-				'DisplayName' => $this->GetName(),
+				'DisplayName' => self::GetName(),
 				'EnableModule' => $this->getConfig('EnableModule', false),
 				'Id' => $this->getConfig('Id', ''),
 				'Secret' => $this->getConfig('Secret', '')
