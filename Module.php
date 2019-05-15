@@ -93,7 +93,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 			);
 		}
 		
-		if (!empty($oUser) && $oUser->Role === \Aurora\System\Enums\UserRole::NormalUser)
+		if (!empty($oUser) && $oUser->isNormalOrTenant())
 		{
 			$oAccount = null;
 			$oOAuthIntegratorWebclientDecorator = \Aurora\Modules\OAuthIntegratorWebclient\Module::Decorator();
