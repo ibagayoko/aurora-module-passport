@@ -8,8 +8,8 @@ var
 ;
 
 module.exports = {
-	ServerModuleName: 'Facebook',
-	HashModuleName: 'facebook',
+	ServerModuleName: 'Passport',
+	HashModuleName: 'passport',
 	
 	Connected: false,
 	

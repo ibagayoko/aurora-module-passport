@@ -41,7 +41,7 @@ module.exports = function (oAppData) {
 		return {
 			start: function (ModulesManager) {
 				ModulesManager.run('SettingsWebclient', 'registerSettingsTab', [
-					function () { return require('modules/%ModuleName%/js/views/FacebookSettingsFormView.js'); },
+					function () { return require('modules/%ModuleName%/js/views/PassportSettingsFormView.js'); },
 					Settings.HashModuleName,
 					TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')
 				]);

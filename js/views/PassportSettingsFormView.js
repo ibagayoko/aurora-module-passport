@@ -22,7 +22,7 @@ var
 /**
 * @constructor
 */
-function CFacebookSettingsFormView()
+function CPassportSettingsFormView()
 {
 	CAbstractSettingsFormView.call(this, Settings.ServerModuleName);
 	
@@ -30,7 +30,7 @@ function CFacebookSettingsFormView()
 	this.scopes = ko.observable(Settings.getScopesCopy());
 	this.bRunCallback = false;
 	
-	window.facebookConnectCallback = _.bind(function (bResult, sErrorCode, sModule) {
+	window.passportConnectCallback = _.bind(function (bResult, sErrorCode, sModule) {
 		this.bRunCallback = true;
 		
 		if (!bResult)
@@ -46,15 +46,15 @@ function CFacebookSettingsFormView()
 	}, this);
 }
 
-_.extendOwn(CFacebookSettingsFormView.prototype, CAbstractSettingsFormView.prototype);
+_.extendOwn(CPassportSettingsFormView.prototype, CAbstractSettingsFormView.prototype);
 
-CFacebookSettingsFormView.prototype.ViewTemplate = '%ModuleName%_FacebookSettingsFormView';
+CPassportSettingsFormView.prototype.ViewTemplate = '%ModuleName%_PassportSettingsFormView';
 
 /**
  * Returns current values of changeable parameters. These values are used to compare with their previous version.
  * @returns {Array}
  */
-CFacebookSettingsFormView.prototype.getCurrentValues = function()
+CPassportSettingsFormView.prototype.getCurrentValues = function()
 {
 	var aScopesValues = _.map(this.scopes(), function (oScope) {
 		return oScope.Name + oScope.Value();
@@ -68,7 +68,7 @@ CFacebookSettingsFormView.prototype.getCurrentValues = function()
 /**
  * Reverts values of changeable parameters to default ones.
  */
-CFacebookSettingsFormView.prototype.revertGlobalValues = function()
+CPassportSettingsFormView.prototype.revertGlobalValues = function()
 {
 	this.connected(Settings.Connected);
 	this.scopes(Settings.getScopesCopy());
@@ -77,12 +77,12 @@ CFacebookSettingsFormView.prototype.revertGlobalValues = function()
 /**
  * Checks if connect is allowed and tries to connect in that case.
  */
-CFacebookSettingsFormView.prototype.checkAndConnect = function ()
+CPassportSettingsFormView.prototype.checkAndConnect = function ()
 {
 	var
 		oParams = {
 			'Scopes': [],
-			'Service': 'facebook',
+			'Service': 'passport',
 			'AllowConnect': true
 		},
 		oAuthScope = _.find(this.scopes(), function (oScope) {
@@ -111,17 +111,17 @@ CFacebookSettingsFormView.prototype.checkAndConnect = function ()
 };
 
 /**
- * Tries to connect user to facebook account.
+ * Tries to connect user to passport account.
  * @param {array} aScopes
  */
-CFacebookSettingsFormView.prototype.connect = function (aScopes)
+CPassportSettingsFormView.prototype.connect = function (aScopes)
 {
 	$.removeCookie('oauth-scopes');
 	$.cookie('oauth-scopes', aScopes.join('|'));
 	$.cookie('oauth-redirect', 'connect');
 	this.bRunCallback = false;
 	var
-		oWin = WindowOpener.open(UrlUtils.getAppPath() + '?oauth=facebook', 'Facebook'),
+		oWin = WindowOpener.open(UrlUtils.getAppPath() + '?oauth=passport', 'Passport'),
 		iIntervalId = setInterval(_.bind(function() {
 			if (oWin.closed)
 			{
@@ -144,11 +144,11 @@ CFacebookSettingsFormView.prototype.connect = function (aScopes)
 /**
  * Checks if disconnect is allowed and disconnects in that case.
  */
-CFacebookSettingsFormView.prototype.checkAndDisconnect = function ()
+CPassportSettingsFormView.prototype.checkAndDisconnect = function ()
 {
 	var
 		oParams = {
-			'Service': 'facebook',
+			'Service': 'passport',
 			'AllowDisconnect': true
 		},
 		oAuthGlobalScope = _.find(Settings.getScopesCopy(), function (oScope) {
@@ -166,9 +166,9 @@ CFacebookSettingsFormView.prototype.checkAndDisconnect = function ()
 };
 
 /**
- * Disconnects user from facebook account.
+ * Disconnects user from passport account.
  */
-CFacebookSettingsFormView.prototype.disconnect = function ()
+CPassportSettingsFormView.prototype.disconnect = function ()
 {
 	Ajax.send(Settings.ServerModuleName, 'DeleteAccount', null, function (oResponse) {
 		if (oResponse.Result)
@@ -188,4 +188,4 @@ CFacebookSettingsFormView.prototype.disconnect = function ()
 	}, this);
 };
 
-module.exports = new CFacebookSettingsFormView();
+module.exports = new CPassportSettingsFormView();

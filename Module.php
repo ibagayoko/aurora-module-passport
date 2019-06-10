@@ -5,10 +5,10 @@
  * For full statements of the licenses see LICENSE-AFTERLOGIC and LICENSE-AGPL3 files.
  */
 
-namespace Aurora\Modules\Facebook;
+namespace Aurora\Modules\Passport;
 
 /**
- * Adds ability to work with Facebook.
+ * Adds ability to work with Passport.
  * 
  * @license https://www.gnu.org/licenses/agpl-3.0.html AGPL-3.0
  * @license https://afterlogic.com/products/common-licensing Afterlogic Software License
@@ -18,7 +18,7 @@ namespace Aurora\Modules\Facebook;
  */
 class Module extends \Aurora\System\Module\AbstractModule
 {
-	protected $sService = 'facebook';
+	protected $sService = 'passport';
 	
 	protected $aRequireModules = array(
 		'OAuthIntegratorWebclient'
@@ -26,7 +26,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 	
 	/***** private functions *****/
 	/**
-	 * Initializes Facebook Module.
+	 * Initializes Passport Module.
 	 * 
 	 * @ignore
 	 */
